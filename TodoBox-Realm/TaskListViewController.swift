@@ -25,6 +25,8 @@ final class TaskListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.title = "Todo Box"
+    
     self.navigationItem.rightBarButtonItem = self.addButtonItem
     self.addButtonItem.target = self
     self.addButtonItem.action = #selector(addButtonItemDidTap)

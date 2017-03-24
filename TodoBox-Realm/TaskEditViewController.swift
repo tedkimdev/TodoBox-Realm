@@ -41,14 +41,14 @@ final class TaskEditViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Add To Do Item"
+    self.title = "Add Todo Item"
     
     self.navigationItem.rightBarButtonItem = self.doneButtonItem
     self.doneButtonItem.target = self
     self.doneButtonItem.action = #selector(doneButtomItemDidTap)
     
     self.textField.borderStyle = .roundedRect
-    self.textField.placeholder = "Input to do what"
+    self.textField.placeholder = "Input Todo Item"
     
     self.view.addSubview(self.textField)
     
