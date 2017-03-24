@@ -137,6 +137,11 @@ final class TaskListViewController: UIViewController {
       self.tasks = self.tasks.filter("isDone = false")
     }
     
+//    return tasks.sorted(by: [
+//      SortDescriptor(keyPath: "created", ascending: false),
+//      SortDescriptor(keyPath: "isDone", ascending: true)
+//      ]
+//    )
     return tasks.sorted(byKeyPath: "created", ascending: true)
   }
 }
@@ -153,7 +158,6 @@ extension TaskListViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let task = tasks[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath) as! TaskCell
-    
     cell.textLabel?.text = task.title
     
     if task.isDone {
@@ -174,10 +178,8 @@ extension TaskListViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let task = self.tasks[indexPath.row]
-    
     self.updateTask(task: task)
     self.readTasksAll()
-    
     tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
   }
   
@@ -189,10 +191,6 @@ extension TaskListViewController: UITableViewDelegate {
       }
     }
     self.tableView.deleteRows(at: [indexPath], with: .fade)
-  }
-  
-  func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-    return false
   }
 
 }
