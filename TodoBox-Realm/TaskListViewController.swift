@@ -42,7 +42,7 @@ final class TaskListViewController: UIViewController {
     
     self.tableView.dataSource = self
     
-    self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+    self.tableView.register(TaskCell.self, forCellReuseIdentifier: "taskCell")
     
     self.view.addSubview(self.tableView)
     
@@ -81,7 +81,7 @@ extension TaskListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath) as! TaskCell
     
     cell.textLabel?.text = tasks[indexPath.row].title
     
