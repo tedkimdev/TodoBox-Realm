@@ -23,7 +23,7 @@ class Task: Object {
     return ["isDone"]
   }
   
-  convenience init(title: String, priority: Int) {
+  convenience init(title: String) {
     self.init()
     self.title = title
   }

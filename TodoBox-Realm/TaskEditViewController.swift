@@ -8,6 +8,8 @@
 
 import UIKit
 
+import RealmSwift
+
 final class TaskEditViewController: UIViewController {
   
   // MARK: Constants
@@ -64,7 +66,28 @@ final class TaskEditViewController: UIViewController {
   // MARK: Actions
   
   func doneButtomItemDidTap() {
-    print("doneButtomItemDidTap")
+    guard let text = self.textField.text else { return }
+    
+    let realm = try! Realm()
+    let task = Task(title: text)
+    try! realm.write {
+      realm.add(task)
+    }
+    
+    NotificationCenter.default.post(
+      name: .taskDidAdd,
+      object: self,
+      userInfo: nil
+    )
+    
+    _ = self.navigationController?.popViewController(animated: true)
   }
   
+}
+
+
+// MARK: - Notification
+
+extension Notification.Name {
+  static var taskDidAdd: Notification.Name { return .init("taskDidAdd") }
 }
