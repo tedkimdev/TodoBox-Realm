@@ -82,11 +82,11 @@
 			children = (
 				BD55DE591E82D69E00A44B40 /* AppDelegate.swift */,
 				BDB53A1B1E856E0A00B463B3 /* TaskListViewController.swift */,
+				BDB53A1D1E8572AC00B463B3 /* TaskEditViewController.swift */,
 				BD55DE5D1E82D69E00A44B40 /* Main.storyboard */,
 				BD55DE601E82D69E00A44B40 /* Assets.xcassets */,
 				BD55DE621E82D69E00A44B40 /* LaunchScreen.storyboard */,
 				BD55DE651E82D69E00A44B40 /* Info.plist */,
-				BDB53A1D1E8572AC00B463B3 /* TaskEditViewController.swift */,
 			);
 			path = "TodoBox-Realm";
 			sourceTree = "<group>";
