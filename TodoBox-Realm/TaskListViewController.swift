@@ -15,6 +15,7 @@ final class TaskListViewController: UIViewController {
   // MARK: Properties
   
   var tasks: Results<Task>!
+  var viewMode: ViewMode = ViewMode.all
   
   
   // MARK: UI
@@ -76,15 +77,33 @@ final class TaskListViewController: UIViewController {
   }
   
   func isDoneViewButtonItemDidTap() {
-    self.isDoneViewButtonItem.title = "☐"
-    self.tasks = self.getTasks(isDone: true)
+    
+    switch self.viewMode {  // All -> checked -> unchecked 순
+    case .all:
+      self.viewMode = .checked
+      self.isDoneViewButtonItem.title = "✔︎"
+      self.tasks = self.getTasks(isDone: true)
+      
+    case .checked:
+      self.viewMode = .unchecked
+      self.isDoneViewButtonItem.title = "☐"
+      self.tasks = self.getTasks(isDone: false)
+      
+    case .unchecked:
+      self.viewMode = .all
+      self.isDoneViewButtonItem.title = "All"
+      self.readTasksAll()
+    }
+    
     self.tableView.reloadData()
   }
+  
   
   // MARK: Notification
   
   func taskDidAdd(_ notification: Notification) {
     print("Notification")
+    self.viewMode = .all
     self.readTasksAll()
     self.tableView.reloadData()
   }
@@ -114,9 +133,11 @@ final class TaskListViewController: UIViewController {
     
     if (isDone) {
       self.tasks = self.tasks.filter("isDone = true")
+    } else {
+      self.tasks = self.tasks.filter("isDone = false")
     }
     
-    return tasks.sorted(byKeyPath: "created", ascending: false)
+    return tasks.sorted(byKeyPath: "created", ascending: true)
   }
 }
 
