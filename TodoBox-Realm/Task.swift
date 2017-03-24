@@ -14,6 +14,7 @@ class Task: Object {
   
   dynamic var title = ""
   dynamic var isDone = false
+  dynamic var created = Date()
   
   override class func primaryKey() -> String? {
     return "taskId"

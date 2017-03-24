@@ -13,11 +13,18 @@ import RealmSwift
 final class TaskListViewController: UIViewController {
   
   // MARK: Properties
+  
   var tasks: Results<Task>!
   
   
   // MARK: UI
   
+  fileprivate let isDoneViewButtonItem = UIBarButtonItem(
+    title: "✔︎",
+    style: .done,
+    target: nil,
+    action: nil
+  )
   fileprivate let addButtonItem = UIBarButtonItem(
     barButtonSystemItem: .add,
     target: nil,
@@ -34,6 +41,10 @@ final class TaskListViewController: UIViewController {
     self.readTasksAll()
     
     self.title = "Todo Box"
+    
+    self.navigationItem.leftBarButtonItem = self.isDoneViewButtonItem
+    self.isDoneViewButtonItem.target = self
+    self.isDoneViewButtonItem.action = #selector(isDoneViewButtonItemDidTap)
     
     self.navigationItem.rightBarButtonItem = self.addButtonItem
     self.addButtonItem.target = self
@@ -64,6 +75,11 @@ final class TaskListViewController: UIViewController {
       self.navigationController?.pushViewController(taskEditViewController, animated: true)
   }
   
+  func isDoneViewButtonItemDidTap() {
+    self.isDoneViewButtonItem.title = "☐"
+    self.tasks = self.getTasks(isDone: true)
+    self.tableView.reloadData()
+  }
   
   // MARK: Notification
   
@@ -92,6 +108,16 @@ final class TaskListViewController: UIViewController {
     }
   }
   
+  func getTasks(isDone: Bool) -> Results<Task> {
+    let realm = try! Realm()
+    self.tasks = realm.objects(Task.self)
+    
+    if (isDone) {
+      self.tasks = self.tasks.filter("isDone = true")
+    }
+    
+    return tasks.sorted(byKeyPath: "created", ascending: false)
+  }
 }
 
 

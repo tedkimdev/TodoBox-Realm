@@ -13,7 +13,9 @@ import RealmSwift
 final class TaskCell: UITableViewCell {
   
   // MARK: Properties
+  
   var taskId: String?
+  
   
   // MARK: Initializing
   
