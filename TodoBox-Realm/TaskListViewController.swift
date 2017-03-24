@@ -44,7 +44,8 @@ final class TaskListViewController: UIViewController {
   // MARK: Actions
   
   func addButtonItemDidTap() {
-    print("addButtonItemDidTap!")
+    let taskEditViewController = TaskEditViewController()
+      self.navigationController?.pushViewController(taskEditViewController, animated: true)
   }
   
 }
