@@ -135,9 +135,13 @@ extension TaskListViewController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-    // TODO: delete task
-    
-//    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+    if editingStyle == .delete {
+      try! tasks.realm!.write {
+        let task = self.tasks[indexPath.row]
+        self.tasks.realm!.delete(task)
+      }
+    }
+    self.tableView.deleteRows(at: [indexPath], with: .fade)
   }
   
   func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
