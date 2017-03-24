@@ -31,8 +31,7 @@ final class TaskListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let realm = try! Realm()
-    self.tasks = realm.objects(Task.self)
+    self.readTasksAll()
     
     self.title = "Todo Box"
     
@@ -70,7 +69,18 @@ final class TaskListViewController: UIViewController {
   
   func taskDidAdd(_ notification: Notification) {
     print("Notification")
+    self.readTasksAll()
+    self.tableView.reloadData()
   }
+  
+  
+  // MARK: Realm
+  
+  func readTasksAll() {
+    let realm = try! Realm()
+    self.tasks = realm.objects(Task.self)
+  }
+  
 }
 
 

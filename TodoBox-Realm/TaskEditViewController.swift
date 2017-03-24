@@ -68,11 +68,7 @@ final class TaskEditViewController: UIViewController {
   func doneButtomItemDidTap() {
     guard let text = self.textField.text else { return }
     
-    let realm = try! Realm()
-    let task = Task(title: text)
-    try! realm.write {
-      realm.add(task)
-    }
+    self.addTask(task: Task(title: text))
     
     NotificationCenter.default.post(
       name: .taskDidAdd,
@@ -81,6 +77,16 @@ final class TaskEditViewController: UIViewController {
     )
     
     _ = self.navigationController?.popViewController(animated: true)
+  }
+  
+  
+  // MARK: Realm
+  func addTask(task: Task) {
+    let realm = try! Realm()
+    let task = task
+    try! realm.write {
+      realm.add(task)
+    }
   }
   
 }
