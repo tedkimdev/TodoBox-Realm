@@ -10,15 +10,26 @@ import UIKit
 
 final class TaskListViewController: UIViewController {
   
-  // MARK: - UI
+  // MARK: UI
+  
+  fileprivate let addButtonItem = UIBarButtonItem(
+    barButtonSystemItem: .add,
+    target: nil,
+    action: nil
+  )
   fileprivate let tableView =  UITableView(frame: .zero)
   
+  
+  // MARK: View Life Cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.tableView.dataSource = self
+    self.navigationItem.rightBarButtonItem = self.addButtonItem
+    self.addButtonItem.target = self
+    self.addButtonItem.action = #selector(addButtonItemDidTap)
     
+    self.tableView.dataSource = self
     
     self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
     
@@ -29,6 +40,12 @@ final class TaskListViewController: UIViewController {
     }
   }
   
+  
+  // MARK: Actions
+  
+  func addButtonItemDidTap() {
+    print("addButtonItemDidTap!")
+  }
   
 }
 
