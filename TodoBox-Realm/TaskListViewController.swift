@@ -40,7 +40,7 @@ final class TaskListViewController: UIViewController {
     self.addButtonItem.action = #selector(addButtonItemDidTap)
     
     self.tableView.dataSource = self
-    
+    self.tableView.delegate = self
     self.tableView.register(TaskCell.self, forCellReuseIdentifier: "taskCell")
     
     self.view.addSubview(self.tableView)
@@ -80,9 +80,22 @@ final class TaskListViewController: UIViewController {
     let realm = try! Realm()
     self.tasks = realm.objects(Task.self)
   }
+
+  func updateTask(task: Task) {
+    let id = task.taskId
+    if let realm = try? Realm(),
+      let task = realm.object(ofType: Task.self, forPrimaryKey: id) {
+      
+      try! realm.write {
+        task.isDone = !task.isDone
+      }
+    }
+  }
   
 }
 
+
+// MARK: - UITableViewDataSource
 
 extension TaskListViewController: UITableViewDataSource {
   
@@ -91,9 +104,16 @@ extension TaskListViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let task = tasks[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath) as! TaskCell
     
-    cell.textLabel?.text = tasks[indexPath.row].title
+    cell.textLabel?.text = task.title
+    
+    if task.isDone {
+      cell.accessoryType = .checkmark
+    } else {
+      cell.accessoryType = .none
+    }
     
     return cell
   }
@@ -101,8 +121,27 @@ extension TaskListViewController: UITableViewDataSource {
 }
 
 
+// MARK: - UITableViewDelegate
+
 extension TaskListViewController: UITableViewDelegate {
   
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let task = self.tasks[indexPath.row]
+    
+    self.updateTask(task: task)
+    self.readTasksAll()
+    
+    tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+  }
   
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    // TODO: delete task
+    
+//    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+  }
   
+  func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    return false
+  }
+
 }
